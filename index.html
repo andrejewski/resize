@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Re:Size</title>
+    <meta name="description" content="Master window management (if you can)" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    <meta name="author" content="Chris Andrejewski" />
+    <link rel="manifest" href="manifest.json" />
+    <style>
+      * {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica,
+          Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+          'Segoe UI Symbol';
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        touch-action: manipulation;
+      }
+
+      .background {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-self: stretch;
+      }
+
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .countdown {
+        font-family: Monaco, monospace;
+        font-size: 4vmax;
+      }
+
+      .info {
+        flex-direction: column;
+      }
+
+      .info {
+        padding: 7vw 3vw;
+        overflow: auto;
+      }
+
+      .info h1,
+      .info p {
+        margin: 0;
+        padding: 0.5vw 0;
+      }
+
+      .info h1 {
+        font-size: 5vw;
+      }
+
+      .info p {
+        font-size: 2vw;
+      }
+
+      .info a {
+        text-decoration: underline;
+        color: inherit;
+      }
+
+      .info hr {
+        display: block;
+        width: 60px;
+        border: none;
+        border-top: 3px solid #000;
+        margin: 2em 0 0.5em;
+      }
+
+      .info .credits,
+      .mobile .info .credits {
+        font-size: 0.9em;
+      }
+
+      .portal-frame {
+        position: fixed;
+        box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.1);
+        border: 1px solid #000;
+      }
+
+      .mobile .info h1 {
+        font-size: 2em;
+        padding: 0;
+      }
+
+      .mobile .info p {
+        font-size: 1em;
+        padding: 0;
+        margin: 1em 0;
+      }
+
+      .mobile-only {
+        display: none;
+      }
+
+      .mobile .mobile-only {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script src="elm.js"></script>
+    <script>
+      var app = Elm.Main.init({
+        node: document.getElementById('root'),
+        flags: 0
+      })
+
+      var loaded, windowTop, left, width, height
+      function sendIfScreenChanged () {
+        if (
+          window.screenTop !== windowTop ||
+          window.screenLeft !== left ||
+          window.screen.availWidth !== width ||
+          window.screen.availHeight !== height
+        ) {
+          windowTop = window.screenTop
+          left = window.screenLeft
+          width = window.screen.availWidth
+          height = window.screen.availHeight
+          var event = { top: windowTop, left, width, height }
+
+          var isMobile = width < 500 || height < 375
+          document.body.className = isMobile ? 'mobile' : ''
+
+          app.ports.onScreenResize.send(event)
+        }
+      }
+
+      window.requestAnimationFrame(function loop () {
+        if (loaded) {
+          sendIfScreenChanged()
+        }
+
+        window.requestAnimationFrame(loop)
+      })
+
+      app.ports.loadScreenSize.subscribe(function () {
+        loaded = true
+        sendIfScreenChanged()
+      })
+    </script>
+    <script>
+      ;(function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r
+        ;(i[r] =
+          i[r] ||
+          function () {
+            ;(i[r].q = i[r].q || []).push(arguments)
+          }),
+          (i[r].l = 1 * new Date())
+        ;(a = s.createElement(o)), (m = s.getElementsByTagName(o)[0])
+        a.async = 1
+        a.src = g
+        m.parentNode.insertBefore(a, m)
+      })(
+        window,
+        document,
+        'script',
+        '//www.google-analytics.com/analytics.js',
+        'ga'
+      )
+      ga('create', 'UA-43674193-3', 'auto')
+      ga('send', 'pageview')
+    </script>
+  </body>
+</html>
