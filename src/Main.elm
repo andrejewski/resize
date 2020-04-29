@@ -130,17 +130,23 @@ screenResizeEventDecorder =
 windowGenerator : Window -> ViewPort -> Random.Generator Window
 windowGenerator maxView minView =
     let
+        maxWidth =
+            maxView.width - toFloat maxView.left
+
         width =
-            Random.float minView.width (maxView.width - toFloat maxView.left)
+            Random.float minView.width maxWidth
+
+        maxHeight =
+            maxView.height - toFloat maxView.top
 
         height =
-            Random.float minView.height (maxView.height - toFloat maxView.top)
+            Random.float minView.height maxHeight
 
         left =
-            Random.andThen (\w -> Random.int maxView.left (maxView.width - w |> floor)) width
+            Random.andThen (\w -> Random.int maxView.left (maxWidth - w |> floor)) width
 
         top =
-            Random.andThen (\h -> Random.int maxView.top (maxView.height - h |> floor)) height
+            Random.andThen (\h -> Random.int maxView.top (maxHeight - h |> floor)) height
     in
     Random.map4 Window top left width height
 
@@ -178,7 +184,7 @@ updateWindow : Model -> Cmd Msg
 updateWindow model =
     let
         edgePadding =
-            140
+            160
 
         maxWindow =
             { top = edgePadding

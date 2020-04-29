@@ -6012,24 +6012,26 @@ var elm$random$Random$map4 = F5(
 	});
 var author$project$Main$windowGenerator = F2(
 	function (maxView, minView) {
-		var width = A2(elm$random$Random$float, minView.b, maxView.b - maxView.h);
+		var maxWidth = maxView.b - maxView.h;
+		var width = A2(elm$random$Random$float, minView.b, maxWidth);
+		var maxHeight = maxView.a - maxView.i;
 		var left = A2(
 			elm$random$Random$andThen,
 			function (w) {
 				return A2(
 					elm$random$Random$int,
 					maxView.h,
-					elm$core$Basics$floor(maxView.b - w));
+					elm$core$Basics$floor(maxWidth - w));
 			},
 			width);
-		var height = A2(elm$random$Random$float, minView.a, maxView.a - maxView.i);
+		var height = A2(elm$random$Random$float, minView.a, maxHeight);
 		var top = A2(
 			elm$random$Random$andThen,
 			function (h) {
 				return A2(
 					elm$random$Random$int,
 					maxView.i,
-					elm$core$Basics$floor(maxView.a - h));
+					elm$core$Basics$floor(maxHeight - h));
 			},
 			height);
 		return A5(elm$random$Random$map4, author$project$Main$Window, top, left, width, height);
@@ -6104,7 +6106,7 @@ var elm$random$Random$generate = F2(
 			A2(elm$random$Random$map, tagger, generator));
 	});
 var author$project$Main$updateWindow = function (model) {
-	var edgePadding = 140;
+	var edgePadding = 160;
 	var maxWindow = {a: model.t.a - edgePadding, h: edgePadding, i: edgePadding, b: model.t.b - edgePadding};
 	var paddedWindow = A2(author$project$Main$windowGenerator, maxWindow, author$project$Main$minViewPort);
 	return A2(elm$random$Random$generate, author$project$Main$UpdateWindow, paddedWindow);
