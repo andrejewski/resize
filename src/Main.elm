@@ -38,6 +38,7 @@ type alias Model =
     , screen : ViewPort
     , viewPort : Window
     , window : Window
+    , samples : List Window
     , windowCount : Int
     , currentTime : Posix
     , startTime : Posix
@@ -54,6 +55,7 @@ type Msg
     | StartGame Posix
     | StartRound Posix
     | UpdateWindow Window
+    | SetSamples (List Window)
 
 
 port loadScreenSize : () -> Cmd msg
@@ -71,6 +73,7 @@ init flags =
             , viewPort = { top = 0, left = 0, width = 0.0, height = 0.0 }
             , screen = { width = 0.0, height = 0.0 }
             , window = { top = 0, left = 0, width = 0.0, height = 0.0 }
+            , samples = []
             , windowCount = 0
             , currentTime = Time.millisToPosix 0
             , startTime = Time.millisToPosix 0
@@ -127,28 +130,47 @@ screenResizeEventDecorder =
         )
 
 
-windowGenerator : Window -> ViewPort -> Random.Generator Window
-windowGenerator maxView minView =
-    let
-        maxWidth =
-            maxView.width - toFloat maxView.left
+windowGenerator : ViewPort -> ViewPort -> Random.Generator Window
+windowGenerator minView maxView =
+    if minView.width > maxView.width || minView.height > maxView.height then
+        Random.constant { top = 0, left = 0, width = minView.width, height = minView.height }
 
-        width =
-            Random.float minView.width maxWidth
+    else
+        let
+            left =
+                Random.float 0 (maxView.width - minView.width)
 
-        maxHeight =
-            maxView.height - toFloat maxView.top
+            width =
+                Random.float minView.width maxView.width
 
-        height =
-            Random.float minView.height maxHeight
+            top =
+                Random.float 0 (maxView.height - minView.height)
 
-        left =
-            Random.andThen (\w -> Random.int maxView.left (maxWidth - w |> floor)) width
+            height =
+                Random.float minView.height maxView.height
 
-        top =
-            Random.andThen (\h -> Random.int maxView.top (maxHeight - h |> floor)) height
-    in
-    Random.map4 Window top left width height
+            window =
+                Random.map4 Window (top |> Random.map floor) (left |> Random.map floor) width height
+        in
+        window
+            |> Random.andThen
+                (\w ->
+                    let
+                        widthOverflows =
+                            (w.left |> toFloat) + w.width >= maxView.width
+
+                        heightOverflows =
+                            (w.top |> toFloat) + w.height >= maxView.height
+
+                        overflows =
+                            widthOverflows || heightOverflows
+                    in
+                    if overflows then
+                        Random.lazy (\_ -> windowGenerator minView maxView)
+
+                    else
+                        Random.constant w
+                )
 
 
 equalViewPort : Window -> Window -> Bool
@@ -182,21 +204,25 @@ homeViewPort =
 
 updateWindow : Model -> Cmd Msg
 updateWindow model =
+    Random.generate UpdateWindow (safeWindowGenerator model)
+
+
+safeWindowGenerator : Model -> Random.Generator Window
+safeWindowGenerator model =
     let
         edgePadding =
-            160
+            100
 
-        maxWindow =
-            { top = edgePadding
-            , left = edgePadding
-            , width = model.screen.width - edgePadding
-            , height = model.screen.height - edgePadding
+        maxView =
+            { width = model.screen.width - (2 * edgePadding)
+            , height = model.screen.height - (2 * edgePadding)
             }
 
-        paddedWindow =
-            windowGenerator maxWindow minViewPort
+        shortWindow =
+            windowGenerator minViewPort maxView
     in
-    Random.generate UpdateWindow paddedWindow
+    shortWindow
+        |> Random.map (\w -> { w | top = w.top + edgePadding, left = w.left + edgePadding })
 
 
 homeWindow : Model -> Window
@@ -280,14 +306,25 @@ update msg model =
                                 | screen = newScreen
                                 , viewPort = { viewPort | top = window.top, left = window.left }
                             }
+
+                        -- Turn this on to test box random generation
+                        cmd =
+                            if False then
+                                model
+                                    |> safeWindowGenerator
+                                    |> Random.list 1000
+                                    |> Random.generate SetSamples
+
+                            else
+                                Cmd.none
                     in
                     if model.screen == newScreen then
-                        ( newModel, Cmd.none )
+                        ( newModel, cmd )
 
                     else
                         case model.scene of
                             Home ->
-                                ( { newModel | window = homeWindow newModel }, Cmd.none )
+                                ( { newModel | window = homeWindow newModel }, cmd )
 
                             Game ->
                                 ( newModel, updateWindow newModel )
@@ -301,6 +338,13 @@ update msg model =
                     --         Debug.log "parse error" error
                     -- in
                     ( model, Cmd.none )
+
+        SetSamples samples ->
+            -- let
+            --     _ =
+            --         Debug.log "x" (samples |> List.filter (\x -> (x.width + toFloat x.left) > model.screen.width))
+            -- in
+            ( { model | samples = samples }, Cmd.none )
 
         StartGame time ->
             ( { model
@@ -353,7 +397,8 @@ px num =
 view : Model -> Html Msg
 view model =
     div []
-        [ portalView model
+        [ portalView model.window model.viewPort
+        , div [ class "test" ] (model.samples |> List.map (\x -> portalView x model.viewPort))
         , case model.scene of
             Home ->
                 homeView
@@ -401,15 +446,15 @@ view model =
         ]
 
 
-portalView : Model -> Html Msg
-portalView model =
+portalView : Window -> Window -> Html Msg
+portalView window viewPort =
     div []
         [ div
             [ class "portal-frame"
-            , style "left" ((model.window.left - model.viewPort.left) |> toFloat |> px)
-            , style "top" ((model.window.top - model.viewPort.top) |> toFloat |> px)
-            , style "width" (model.window.width |> px)
-            , style "height" (model.window.height |> px)
+            , style "left" ((window.left - viewPort.left) |> toFloat |> px)
+            , style "top" ((window.top - viewPort.top) |> toFloat |> px)
+            , style "width" (window.width |> px)
+            , style "height" (window.height |> px)
             ]
             []
         ]

@@ -770,11 +770,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.W.I === region.aa.I)
+	if (region.X.I === region.ab.I)
 	{
-		return 'on line ' + region.W.I;
+		return 'on line ' + region.X.I;
 	}
-	return 'on lines ' + region.W.I + ' through ' + region.aa.I;
+	return 'on lines ' + region.X.I + ' through ' + region.ab.I;
 }
 
 
@@ -1845,9 +1845,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aD,
-		impl.aL,
-		impl.aJ,
+		impl.aE,
+		impl.aM,
+		impl.aK,
 		function() { return function() {} }
 	);
 });
@@ -2647,9 +2647,9 @@ var _VirtualDom_mapEventTuple = F2(function(func, tuple)
 var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
-		r: func(record.r),
-		X: record.X,
-		V: record.V
+		q: func(record.q),
+		Y: record.Y,
+		W: record.W
 	}
 });
 
@@ -2917,11 +2917,11 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 		// 3 = Custom
 
 		var value = result.a;
-		var message = !tag ? value : tag < 3 ? value.a : value.r;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.X;
+		var message = !tag ? value : tag < 3 ? value.a : value.q;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.Y;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.V) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.W) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3867,11 +3867,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aD,
-		impl.aL,
-		impl.aJ,
+		impl.aE,
+		impl.aM,
+		impl.aK,
 		function(sendToApp, initialModel) {
-			var view = impl.aN;
+			var view = impl.aO;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3903,12 +3903,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aD,
-		impl.aL,
-		impl.aJ,
+		impl.aE,
+		impl.aM,
+		impl.aK,
 		function(sendToApp, initialModel) {
 			var divertHrefToApp = impl.K && impl.K(sendToApp)
-			var view = impl.aN;
+			var view = impl.aO;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -3916,12 +3916,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.aw);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.ax);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.aK) && (_VirtualDom_doc.title = title = doc.aK);
+				(title !== doc.aL) && (_VirtualDom_doc.title = title = doc.aL);
 			});
 		}
 	);
@@ -3972,8 +3972,8 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.aF;
-	var onUrlRequest = impl.aG;
+	var onUrlChange = impl.aG;
+	var onUrlRequest = impl.aH;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
@@ -3993,9 +3993,9 @@ function _Browser_application(impl)
 					var next = elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.an === next.an
-							&& curr.ad === next.ad
-							&& curr.ak.a === next.ak.a
+							&& curr.ao === next.ao
+							&& curr.ae === next.ae
+							&& curr.al.a === next.al.a
 						)
 							? elm$browser$Browser$Internal(next)
 							: elm$browser$Browser$External(href)
@@ -4003,13 +4003,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		aD: function(flags)
+		aE: function(flags)
 		{
-			return A3(impl.aD, flags, _Browser_getUrl(), key);
+			return A3(impl.aE, flags, _Browser_getUrl(), key);
 		},
-		aN: impl.aN,
-		aL: impl.aL,
-		aJ: impl.aJ
+		aO: impl.aO,
+		aM: impl.aM,
+		aK: impl.aK
 	});
 }
 
@@ -4075,17 +4075,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { aB: 'hidden', G: 'visibilitychange' }
+		? { aC: 'hidden', G: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { aB: 'mozHidden', G: 'mozvisibilitychange' }
+		? { aC: 'mozHidden', G: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { aB: 'msHidden', G: 'msvisibilitychange' }
+		? { aC: 'msHidden', G: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { aB: 'webkitHidden', G: 'webkitvisibilitychange' }
-		: { aB: 'hidden', G: 'visibilitychange' };
+		? { aC: 'webkitHidden', G: 'webkitvisibilitychange' }
+		: { aC: 'hidden', G: 'visibilitychange' };
 }
 
 
@@ -4167,9 +4167,9 @@ function _Browser_getViewport()
 {
 	return {
 		l: _Browser_getScene(),
-		at: {
-			R: _Browser_window.pageXOffset,
-			S: _Browser_window.pageYOffset,
+		au: {
+			S: _Browser_window.pageXOffset,
+			T: _Browser_window.pageYOffset,
 			b: _Browser_doc.documentElement.clientWidth,
 			a: _Browser_doc.documentElement.clientHeight
 		}
@@ -4209,9 +4209,9 @@ function _Browser_getViewportOf(id)
 				b: node.scrollWidth,
 				a: node.scrollHeight
 			},
-			at: {
-				R: node.scrollLeft,
-				S: node.scrollTop,
+			au: {
+				S: node.scrollLeft,
+				T: node.scrollTop,
 				b: node.clientWidth,
 				a: node.clientHeight
 			}
@@ -4244,15 +4244,15 @@ function _Browser_getElement(id)
 		var y = _Browser_window.pageYOffset;
 		return {
 			l: _Browser_getScene(),
-			at: {
-				R: x,
-				S: y,
+			au: {
+				S: x,
+				T: y,
 				b: _Browser_doc.documentElement.clientWidth,
 				a: _Browser_doc.documentElement.clientHeight
 			},
-			ay: {
-				R: x + rect.left,
-				S: y + rect.top,
+			az: {
+				S: x + rect.left,
+				T: y + rect.top,
 				b: rect.width,
 				a: rect.height
 			}
@@ -5060,7 +5060,7 @@ var elm$core$String$contains = _String_contains;
 var elm$core$String$toInt = _String_toInt;
 var elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {ac: fragment, ad: host, ai: path, ak: port_, an: protocol, ao: query};
+		return {ad: fragment, ae: host, aj: path, al: port_, ao: protocol, ap: query};
 	});
 var elm$url$Url$chompBeforePath = F5(
 	function (protocol, path, params, frag, str) {
@@ -5172,13 +5172,14 @@ var author$project$Main$init = function (flags) {
 	var model = {
 		P: elm$time$Time$millisToPosix(0),
 		H: elm$time$Time$millisToPosix(0),
-		af: false,
+		ag: false,
 		J: elm$time$Time$millisToPosix(0),
+		Q: _List_Nil,
 		l: 0,
-		t: {a: 0.0, b: 0.0},
-		Q: elm$time$Time$millisToPosix(0),
-		m: {a: 0.0, h: 0, i: 0, b: 0.0},
-		n: {a: 0.0, h: 0, i: 0, b: 0.0},
+		s: {a: 0.0, b: 0.0},
+		R: elm$time$Time$millisToPosix(0),
+		m: {a: 0.0, g: 0, h: 0, b: 0.0},
+		y: {a: 0.0, g: 0, h: 0, b: 0.0},
 		z: 0
 	};
 	return _Utils_Tuple2(
@@ -5210,7 +5211,7 @@ var elm$browser$Browser$Events$MySub = F3(
 	});
 var elm$browser$Browser$Events$State = F2(
 	function (subs, pids) {
-		return {aj: pids, ar: subs};
+		return {ak: pids, as: subs};
 	});
 var elm$core$Dict$RBEmpty_elm_builtin = {$: -2};
 var elm$core$Dict$empty = elm$core$Dict$RBEmpty_elm_builtin;
@@ -5234,7 +5235,7 @@ var elm$browser$Browser$Events$addKey = function (sub) {
 };
 var elm$browser$Browser$Events$Event = F2(
 	function (key, event) {
-		return {ab: event, ae: key};
+		return {ac: event, af: key};
 	});
 var elm$core$Platform$sendToSelf = _Platform_sendToSelf;
 var elm$browser$Browser$Events$spawn = F3(
@@ -5517,7 +5518,7 @@ var elm$browser$Browser$Events$onEffects = F3(
 			stepLeft,
 			stepBoth,
 			stepRight,
-			state.aj,
+			state.ak,
 			elm$core$Dict$fromList(newSubs),
 			_Utils_Tuple3(_List_Nil, elm$core$Dict$empty, _List_Nil));
 		var deadPids = _n0.a;
@@ -5563,8 +5564,8 @@ var elm$core$List$filterMap = F2(
 	});
 var elm$browser$Browser$Events$onSelfMsg = F3(
 	function (router, _n0, state) {
-		var key = _n0.ae;
-		var event = _n0.ab;
+		var key = _n0.af;
+		var event = _n0.ac;
 		var toMessage = function (_n2) {
 			var subKey = _n2.a;
 			var _n3 = _n2.b;
@@ -5573,7 +5574,7 @@ var elm$browser$Browser$Events$onSelfMsg = F3(
 			var decoder = _n3.c;
 			return _Utils_eq(subKey, key) ? A2(_Browser_decodeEvent, decoder, event) : elm$core$Maybe$Nothing;
 		};
-		var messages = A2(elm$core$List$filterMap, toMessage, state.ar);
+		var messages = A2(elm$core$List$filterMap, toMessage, state.as);
 		return A2(
 			elm$core$Task$andThen,
 			function (_n1) {
@@ -5626,7 +5627,7 @@ var elm$time$Time$Every = F2(
 	});
 var elm$time$Time$State = F2(
 	function (taggers, processes) {
-		return {am: processes, as: taggers};
+		return {an: processes, at: taggers};
 	});
 var elm$time$Time$init = elm$core$Task$succeed(
 	A2(elm$time$Time$State, elm$core$Dict$empty, elm$core$Dict$empty));
@@ -5719,7 +5720,7 @@ var elm$time$Time$spawnHelp = F3(
 	});
 var elm$time$Time$onEffects = F3(
 	function (router, subs, _n0) {
-		var processes = _n0.am;
+		var processes = _n0.an;
 		var rightStep = F3(
 			function (_n6, id, _n7) {
 				var spawns = _n7.a;
@@ -5786,7 +5787,7 @@ var elm$time$Time$onEffects = F3(
 var elm$time$Time$now = _Time_now(elm$time$Time$millisToPosix);
 var elm$time$Time$onSelfMsg = F3(
 	function (router, interval, state) {
-		var _n0 = A2(elm$core$Dict$get, interval, state.as);
+		var _n0 = A2(elm$core$Dict$get, interval, state.at);
 		if (_n0.$ === 1) {
 			return elm$core$Task$succeed(state);
 		} else {
@@ -5847,6 +5848,9 @@ var author$project$Main$subscriptions = function (model) {
 			])) : defaultSubs;
 };
 var author$project$Main$GameOver = 2;
+var author$project$Main$SetSamples = function (a) {
+	return {$: 7, a: a};
+};
 var author$project$Main$StartGame = function (a) {
 	return {$: 4, a: a};
 };
@@ -5875,8 +5879,8 @@ var author$project$Main$homeViewPort = {a: author$project$Main$minViewPort.a + 1
 var author$project$Main$homeWindow = function (model) {
 	return {
 		a: author$project$Main$homeViewPort.a,
-		h: elm$core$Basics$floor((model.t.b / 2) - (author$project$Main$homeViewPort.b / 2)),
-		i: elm$core$Basics$floor((model.t.a / 2) - (author$project$Main$homeViewPort.a / 2)),
+		g: elm$core$Basics$floor((model.s.b / 2) - (author$project$Main$homeViewPort.b / 2)),
+		h: elm$core$Basics$floor((model.s.a / 2) - (author$project$Main$homeViewPort.a / 2)),
 		b: author$project$Main$homeViewPort.b
 	};
 };
@@ -5890,25 +5894,11 @@ var author$project$Main$remainingTime = function (model) {
 	var endTime = elm$time$Time$posixToMillis(model.J) + duration;
 	return endTime - elm$time$Time$posixToMillis(model.P);
 };
-var elm$json$Json$Decode$float = _Json_decodeFloat;
-var elm$json$Json$Decode$map4 = _Json_map4;
-var author$project$Main$screenResizeEventDecorder = A5(
-	elm$json$Json$Decode$map4,
-	F4(
-		function (t, l, w, h) {
-			return {a: h, h: l, i: t, b: w};
-		}),
-	A2(elm$json$Json$Decode$field, 'top', elm$json$Json$Decode$int),
-	A2(elm$json$Json$Decode$field, 'left', elm$json$Json$Decode$int),
-	A2(elm$json$Json$Decode$field, 'width', elm$json$Json$Decode$float),
-	A2(elm$json$Json$Decode$field, 'height', elm$json$Json$Decode$float));
-var author$project$Main$UpdateWindow = function (a) {
-	return {$: 6, a: a};
-};
 var author$project$Main$Window = F4(
 	function (top, left, width, height) {
-		return {a: height, h: left, i: top, b: width};
+		return {a: height, g: left, h: top, b: width};
 	});
+var elm$core$Basics$ge = _Utils_ge;
 var elm$random$Random$Generator = elm$core$Basics$identity;
 var elm$random$Random$andThen = F2(
 	function (callback, _n0) {
@@ -5922,6 +5912,11 @@ var elm$random$Random$andThen = F2(
 			return genB(newSeed);
 		};
 	});
+var elm$random$Random$constant = function (value) {
+	return function (seed) {
+		return _Utils_Tuple2(value, seed);
+	};
+};
 var elm$core$Bitwise$and = _Bitwise_and;
 var elm$core$Bitwise$shiftRightZfBy = _Bitwise_shiftRightZfBy;
 var elm$random$Random$Seed = F2(
@@ -5955,35 +5950,23 @@ var elm$random$Random$float = F2(
 				elm$random$Random$next(seed1));
 		};
 	});
-var elm$random$Random$int = F2(
-	function (a, b) {
+var elm$random$Random$lazy = function (callback) {
+	return function (seed) {
+		var _n0 = callback(0);
+		var gen = _n0;
+		return gen(seed);
+	};
+};
+var elm$random$Random$map = F2(
+	function (func, _n0) {
+		var genA = _n0;
 		return function (seed0) {
-			var _n0 = (_Utils_cmp(a, b) < 0) ? _Utils_Tuple2(a, b) : _Utils_Tuple2(b, a);
-			var lo = _n0.a;
-			var hi = _n0.b;
-			var range = (hi - lo) + 1;
-			if (!((range - 1) & range)) {
-				return _Utils_Tuple2(
-					(((range - 1) & elm$random$Random$peel(seed0)) >>> 0) + lo,
-					elm$random$Random$next(seed0));
-			} else {
-				var threshhold = (((-range) >>> 0) % range) >>> 0;
-				var accountForBias = function (seed) {
-					accountForBias:
-					while (true) {
-						var x = elm$random$Random$peel(seed);
-						var seedN = elm$random$Random$next(seed);
-						if (_Utils_cmp(x, threshhold) < 0) {
-							var $temp$seed = seedN;
-							seed = $temp$seed;
-							continue accountForBias;
-						} else {
-							return _Utils_Tuple2((x % range) + lo, seedN);
-						}
-					}
-				};
-				return accountForBias(seed0);
-			}
+			var _n1 = genA(seed0);
+			var a = _n1.a;
+			var seed1 = _n1.b;
+			return _Utils_Tuple2(
+				func(a),
+				seed1);
 		};
 	});
 var elm$random$Random$map4 = F5(
@@ -6011,31 +5994,64 @@ var elm$random$Random$map4 = F5(
 		};
 	});
 var author$project$Main$windowGenerator = F2(
-	function (maxView, minView) {
-		var maxWidth = maxView.b - maxView.h;
-		var width = A2(elm$random$Random$float, minView.b, maxWidth);
-		var maxHeight = maxView.a - maxView.i;
-		var left = A2(
-			elm$random$Random$andThen,
-			function (w) {
-				return A2(
-					elm$random$Random$int,
-					maxView.h,
-					elm$core$Basics$floor(maxWidth - w));
-			},
-			width);
-		var height = A2(elm$random$Random$float, minView.a, maxHeight);
-		var top = A2(
-			elm$random$Random$andThen,
-			function (h) {
-				return A2(
-					elm$random$Random$int,
-					maxView.i,
-					elm$core$Basics$floor(maxHeight - h));
-			},
-			height);
-		return A5(elm$random$Random$map4, author$project$Main$Window, top, left, width, height);
+	function (minView, maxView) {
+		if ((_Utils_cmp(minView.b, maxView.b) > 0) || (_Utils_cmp(minView.a, maxView.a) > 0)) {
+			return elm$random$Random$constant(
+				{a: minView.a, g: 0, h: 0, b: minView.b});
+		} else {
+			var width = A2(elm$random$Random$float, minView.b, maxView.b);
+			var top = A2(elm$random$Random$float, 0, maxView.a - minView.a);
+			var left = A2(elm$random$Random$float, 0, maxView.b - minView.b);
+			var height = A2(elm$random$Random$float, minView.a, maxView.a);
+			var window = A5(
+				elm$random$Random$map4,
+				author$project$Main$Window,
+				A2(elm$random$Random$map, elm$core$Basics$floor, top),
+				A2(elm$random$Random$map, elm$core$Basics$floor, left),
+				width,
+				height);
+			return A2(
+				elm$random$Random$andThen,
+				function (w) {
+					var widthOverflows = _Utils_cmp(w.g + w.b, maxView.b) > -1;
+					var heightOverflows = _Utils_cmp(w.h + w.a, maxView.a) > -1;
+					var overflows = widthOverflows || heightOverflows;
+					return overflows ? elm$random$Random$lazy(
+						function (_n0) {
+							return A2(author$project$Main$windowGenerator, minView, maxView);
+						}) : elm$random$Random$constant(w);
+				},
+				window);
+		}
 	});
+var author$project$Main$safeWindowGenerator = function (model) {
+	var edgePadding = 100;
+	var maxView = {a: model.s.a - (2 * edgePadding), b: model.s.b - (2 * edgePadding)};
+	var shortWindow = A2(author$project$Main$windowGenerator, author$project$Main$minViewPort, maxView);
+	return A2(
+		elm$random$Random$map,
+		function (w) {
+			return _Utils_update(
+				w,
+				{g: w.g + edgePadding, h: w.h + edgePadding});
+		},
+		shortWindow);
+};
+var elm$json$Json$Decode$float = _Json_decodeFloat;
+var elm$json$Json$Decode$map4 = _Json_map4;
+var author$project$Main$screenResizeEventDecorder = A5(
+	elm$json$Json$Decode$map4,
+	F4(
+		function (t, l, w, h) {
+			return {a: h, g: l, h: t, b: w};
+		}),
+	A2(elm$json$Json$Decode$field, 'top', elm$json$Json$Decode$int),
+	A2(elm$json$Json$Decode$field, 'left', elm$json$Json$Decode$int),
+	A2(elm$json$Json$Decode$field, 'width', elm$json$Json$Decode$float),
+	A2(elm$json$Json$Decode$field, 'height', elm$json$Json$Decode$float));
+var author$project$Main$UpdateWindow = function (a) {
+	return {$: 6, a: a};
+};
 var elm$random$Random$Generate = elm$core$Basics$identity;
 var elm$random$Random$initialSeed = function (x) {
 	var _n0 = elm$random$Random$next(
@@ -6081,18 +6097,6 @@ var elm$random$Random$onSelfMsg = F3(
 	function (_n0, _n1, seed) {
 		return elm$core$Task$succeed(seed);
 	});
-var elm$random$Random$map = F2(
-	function (func, _n0) {
-		var genA = _n0;
-		return function (seed0) {
-			var _n1 = genA(seed0);
-			var a = _n1.a;
-			var seed1 = _n1.b;
-			return _Utils_Tuple2(
-				func(a),
-				seed1);
-		};
-	});
 var elm$random$Random$cmdMap = F2(
 	function (func, _n0) {
 		var generator = _n0;
@@ -6106,13 +6110,42 @@ var elm$random$Random$generate = F2(
 			A2(elm$random$Random$map, tagger, generator));
 	});
 var author$project$Main$updateWindow = function (model) {
-	var edgePadding = 160;
-	var maxWindow = {a: model.t.a - edgePadding, h: edgePadding, i: edgePadding, b: model.t.b - edgePadding};
-	var paddedWindow = A2(author$project$Main$windowGenerator, maxWindow, author$project$Main$minViewPort);
-	return A2(elm$random$Random$generate, author$project$Main$UpdateWindow, paddedWindow);
+	return A2(
+		elm$random$Random$generate,
+		author$project$Main$UpdateWindow,
+		author$project$Main$safeWindowGenerator(model));
 };
 var elm$core$Platform$Cmd$none = elm$core$Platform$Cmd$batch(_List_Nil);
 var elm$json$Json$Decode$decodeValue = _Json_run;
+var elm$random$Random$listHelp = F4(
+	function (revList, n, gen, seed) {
+		listHelp:
+		while (true) {
+			if (n < 1) {
+				return _Utils_Tuple2(revList, seed);
+			} else {
+				var _n0 = gen(seed);
+				var value = _n0.a;
+				var newSeed = _n0.b;
+				var $temp$revList = A2(elm$core$List$cons, value, revList),
+					$temp$n = n - 1,
+					$temp$gen = gen,
+					$temp$seed = newSeed;
+				revList = $temp$revList;
+				n = $temp$n;
+				gen = $temp$gen;
+				seed = $temp$seed;
+				continue listHelp;
+			}
+		}
+	});
+var elm$random$Random$list = F2(
+	function (n, _n0) {
+		var gen = _n0;
+		return function (seed) {
+			return A4(elm$random$Random$listHelp, _List_Nil, n, gen, seed);
+		};
+	});
 var author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
@@ -6121,7 +6154,7 @@ var author$project$Main$update = F2(
 				var newModel = _Utils_update(
 					model,
 					{
-						m: {a: viewPort.at.a, h: 0, i: 0, b: viewPort.at.b}
+						m: {a: viewPort.au.a, g: 0, h: 0, b: viewPort.au.b}
 					});
 				return _Utils_Tuple2(
 					newModel,
@@ -6137,7 +6170,7 @@ var author$project$Main$update = F2(
 							viewPort,
 							{a: height, b: width})
 					});
-				if (A2(author$project$Main$equalViewPort, model.m, model.n)) {
+				if (A2(author$project$Main$equalViewPort, model.m, model.y)) {
 					var _n1 = model.l;
 					switch (_n1) {
 						case 0:
@@ -6154,7 +6187,7 @@ var author$project$Main$update = F2(
 									model,
 									{
 										l: 0,
-										n: author$project$Main$homeWindow(model)
+										y: author$project$Main$homeWindow(model)
 									}),
 								elm$core$Platform$Cmd$none);
 					}
@@ -6171,13 +6204,20 @@ var author$project$Main$update = F2(
 					var newModel = _Utils_update(
 						model,
 						{
-							t: newScreen,
+							s: newScreen,
 							m: _Utils_update(
 								viewPort,
-								{h: window.h, i: window.i})
+								{g: window.g, h: window.h})
 						});
-					if (_Utils_eq(model.t, newScreen)) {
-						return _Utils_Tuple2(newModel, elm$core$Platform$Cmd$none);
+					var cmd = false ? A2(
+						elm$random$Random$generate,
+						author$project$Main$SetSamples,
+						A2(
+							elm$random$Random$list,
+							1000,
+							author$project$Main$safeWindowGenerator(model))) : elm$core$Platform$Cmd$none;
+					if (_Utils_eq(model.s, newScreen)) {
+						return _Utils_Tuple2(newModel, cmd);
 					} else {
 						var _n3 = model.l;
 						switch (_n3) {
@@ -6186,9 +6226,9 @@ var author$project$Main$update = F2(
 									_Utils_update(
 										newModel,
 										{
-											n: author$project$Main$homeWindow(newModel)
+											y: author$project$Main$homeWindow(newModel)
 										}),
-									elm$core$Platform$Cmd$none);
+									cmd);
 							case 1:
 								return _Utils_Tuple2(
 									newModel,
@@ -6202,6 +6242,13 @@ var author$project$Main$update = F2(
 				} else {
 					return _Utils_Tuple2(model, elm$core$Platform$Cmd$none);
 				}
+			case 7:
+				var samples = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{Q: samples}),
+					elm$core$Platform$Cmd$none);
 			case 4:
 				var time = msg.a;
 				return _Utils_Tuple2(
@@ -6211,7 +6258,7 @@ var author$project$Main$update = F2(
 							H: elm$time$Time$millisToPosix(0),
 							J: time,
 							l: 1,
-							Q: time,
+							R: time,
 							z: 0
 						}),
 					author$project$Main$updateWindow(model));
@@ -6227,7 +6274,7 @@ var author$project$Main$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{n: window}),
+						{y: window}),
 					elm$core$Platform$Cmd$none);
 			default:
 				var time = msg.a;
@@ -6360,37 +6407,38 @@ var author$project$Main$px = function (num) {
 };
 var elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var elm$html$Html$Attributes$style = elm$virtual_dom$VirtualDom$style;
-var author$project$Main$portalView = function (model) {
-	return A2(
-		elm$html$Html$div,
-		_List_Nil,
-		_List_fromArray(
-			[
-				A2(
-				elm$html$Html$div,
-				_List_fromArray(
-					[
-						elm$html$Html$Attributes$class('portal-frame'),
-						A2(
-						elm$html$Html$Attributes$style,
-						'left',
-						author$project$Main$px(model.n.h - model.m.h)),
-						A2(
-						elm$html$Html$Attributes$style,
-						'top',
-						author$project$Main$px(model.n.i - model.m.i)),
-						A2(
-						elm$html$Html$Attributes$style,
-						'width',
-						author$project$Main$px(model.n.b)),
-						A2(
-						elm$html$Html$Attributes$style,
-						'height',
-						author$project$Main$px(model.n.a))
-					]),
-				_List_Nil)
-			]));
-};
+var author$project$Main$portalView = F2(
+	function (window, viewPort) {
+		return A2(
+			elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					elm$html$Html$div,
+					_List_fromArray(
+						[
+							elm$html$Html$Attributes$class('portal-frame'),
+							A2(
+							elm$html$Html$Attributes$style,
+							'left',
+							author$project$Main$px(window.g - viewPort.g)),
+							A2(
+							elm$html$Html$Attributes$style,
+							'top',
+							author$project$Main$px(window.h - viewPort.h)),
+							A2(
+							elm$html$Html$Attributes$style,
+							'width',
+							author$project$Main$px(window.b)),
+							A2(
+							elm$html$Html$Attributes$style,
+							'height',
+							author$project$Main$px(window.a))
+						]),
+					_List_Nil)
+				]));
+	});
 var elm$core$Basics$modBy = _Basics_modBy;
 var elm$core$String$cons = _String_cons;
 var elm$core$String$fromChar = function (_char) {
@@ -6424,7 +6472,19 @@ var author$project$Main$view = function (model) {
 		_List_Nil,
 		_List_fromArray(
 			[
-				author$project$Main$portalView(model),
+				A2(author$project$Main$portalView, model.y, model.m),
+				A2(
+				elm$html$Html$div,
+				_List_fromArray(
+					[
+						elm$html$Html$Attributes$class('test')
+					]),
+				A2(
+					elm$core$List$map,
+					function (x) {
+						return A2(author$project$Main$portalView, x, model.m);
+					},
+					model.Q)),
 				function () {
 				var _n0 = model.l;
 				switch (_n0) {
@@ -6492,7 +6552,7 @@ var author$project$Main$view = function (model) {
 											_List_fromArray(
 												[
 													function () {
-													var diffMs = elm$time$Time$posixToMillis(model.H) - elm$time$Time$posixToMillis(model.Q);
+													var diffMs = elm$time$Time$posixToMillis(model.H) - elm$time$Time$posixToMillis(model.R);
 													var seconds = (diffMs / 1000) | 0;
 													return elm$html$Html$text(
 														'You perfectly resized ' + (A2(author$project$Main$plural, 'window', model.z) + (' in ' + (A2(author$project$Main$plural, 'second', seconds) + '.'))));
@@ -6519,5 +6579,5 @@ var author$project$Main$view = function (model) {
 };
 var elm$browser$Browser$element = _Browser_element;
 var author$project$Main$main = elm$browser$Browser$element(
-	{aD: author$project$Main$init, aJ: author$project$Main$subscriptions, aL: author$project$Main$update, aN: author$project$Main$view});
+	{aE: author$project$Main$init, aK: author$project$Main$subscriptions, aM: author$project$Main$update, aO: author$project$Main$view});
 _Platform_export({'Main':{'init':author$project$Main$main(elm$json$Json$Decode$int)(0)}});}(this));
