@@ -177,7 +177,7 @@ equalViewPort : Window -> Window -> Bool
 equalViewPort a b =
     let
         margin =
-            2
+            8
 
         widthMatches =
             (a.width - b.width |> abs) < margin
@@ -242,7 +242,7 @@ remainingTime model =
 
         duration =
             maxTime
-                - (10 * model.windowCount)
+                - (100 * model.windowCount)
 
         endTime =
             (model.roundTime |> Time.posixToMillis) + duration
@@ -422,14 +422,14 @@ view model =
                             displayMilliseconds =
                                 milliseconds |> String.fromInt |> String.padLeft 3 '0'
                           in
-                          text (displaySeconds ++ ":" ++ displayMilliseconds)
+                          whiteText (displaySeconds ++ ":" ++ displayMilliseconds)
                         ]
                     ]
 
             GameOver ->
                 div [ class "info overlay" ]
                     [ article []
-                        [ h1 [] [ text "The game is now done." ]
+                        [ h1 [] [ whiteText "The game is now done." ]
                         , p []
                             [ let
                                 diffMs =
@@ -438,9 +438,9 @@ view model =
                                 seconds =
                                     diffMs // 1000
                               in
-                              text ("You perfectly resized " ++ plural "window" model.windowCount ++ " in " ++ plural "second" seconds ++ ".")
+                              whiteText ("You perfectly resized " ++ plural "window" model.windowCount ++ " in " ++ plural "second" seconds ++ ".")
                             ]
-                        , p [] [ b [] [ text "Resize your browser window to fit the box to return home." ] ]
+                        , p [] [ b [] [ whiteText "Resize your browser window to fit the box to return home." ] ]
                         ]
                     ]
         ]
@@ -460,24 +460,31 @@ portalView window viewPort =
         ]
 
 
+whiteText : String -> Html Msg
+whiteText str =
+    span [ class "white-text" ] [ text str ]
+
+
 homeView : Html Msg
 homeView =
     div [ class "info overlay" ]
         [ article []
-            [ h1 [] [ text "Re:Size" ]
+            [ h1 [] [ whiteText "Re:Size" ]
             , p []
-                [ text
-                    "Most modern websites are responsive: when you resize your browser window, they adjust to make adequate use of the space. This game ain't that. To win, you must continually resize your window perfectly to fit the mold. Grab those corners and race against a clock to become the greatest window manager of all time."
+                [ whiteText
+                    "Most modern websites are responsive: when you resize your browser window, they adjust to make adequate use of the space. This game ain't that. To win, you must continually resize your window to fit the mold. Grab those corners and race against a clock to become the greatest window manager of all time."
                 ]
-            , p [] [ b [] [ text "Resize your browser window to fit the box to start the game. Yes, seriously." ] ]
-            , p [ class "mobile-only" ] [ text "(⚠️ Won't work on devices that don't let you resize your browser.)" ]
+            , p [] [ b [] [ whiteText "Resize your browser window to fit the box to start the game. Yes, seriously." ] ]
+            , p [ class "mobile-only" ] [ whiteText "(⚠️ Won't work on devices that don't let you resize your browser.)" ]
             , hr [] []
             , p [ class "credits" ]
-                [ text "Re:Size is written by "
-                , a [ href "https://jew.ski/" ] [ text "Chris Andrejewski" ]
-                , text ". The source code is "
-                , a [ href "https://github.com/andrejewski/resize" ] [ text "open source" ]
-                , text "."
+                [ span [ class "white-text" ]
+                    [ text "Re:Size is written by "
+                    , a [ href "https://jew.ski/" ] [ text "Chris Andrejewski" ]
+                    , text ". The source code is "
+                    , a [ href "https://github.com/andrejewski/resize" ] [ text "open source" ]
+                    , text "."
+                    ]
                 ]
             ]
         ]

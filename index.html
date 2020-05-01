@@ -8,6 +8,36 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
     <meta name="author" content="Chris Andrejewski" />
+
+    <!-- OpenGraph -->
+    <meta property="og:url" content="https://jew.ski/resize" />
+    <meta property="og:title" content="Re:Size" />
+    <meta property="og:site_name" content="Chris Andrejewski" />
+    <meta
+      property="og:description"
+      content="Master window management (if you can)"
+    />
+    <meta
+      property="og:image"
+      content="https://jew.ski/resize/social-preview.png"
+    />
+    <meta property="og:image:width" content="1080" />
+    <meta property="og:image:height" content="720" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://jew.ski/resize" />
+    <meta property="twitter:title" content="Re:Size" />
+    <meta property="twitter:domain" content="jew.ski" />
+    <meta
+      property="twitter:description"
+      content="Master window management (if you can)"
+    />
+    <meta
+      property="twitter:image"
+      content="https://jew.ski/resize/social-preview.png"
+    />
+
     <link rel="manifest" href="manifest.json" />
     <style>
       * {
@@ -51,6 +81,11 @@
       .countdown {
         font-family: Monaco, monospace;
         font-size: 4vmax;
+      }
+
+      .white-text {
+        background-color: rgba(255, 255, 255, 0.95);
+        font-family: inherit;
       }
 
       .info {
@@ -99,8 +134,7 @@
 
       .portal-frame {
         position: fixed;
-        box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.1);
-        border: 1px solid #000;
+        box-shadow: 0 0 0px 4px #000;
       }
 
       .mobile .info h1 {

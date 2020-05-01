@@ -5865,7 +5865,7 @@ var elm$core$Basics$abs = function (n) {
 };
 var author$project$Main$equalViewPort = F2(
 	function (a, b) {
-		var margin = 2;
+		var margin = 8;
 		var widthMatches = _Utils_cmp(
 			elm$core$Basics$abs(a.b - b.b),
 			margin) < 0;
@@ -5890,7 +5890,7 @@ var elm$time$Time$posixToMillis = function (_n0) {
 };
 var author$project$Main$remainingTime = function (model) {
 	var maxTime = 30 * 1000;
-	var duration = maxTime - (10 * model.z);
+	var duration = maxTime - (100 * model.z);
 	var endTime = elm$time$Time$posixToMillis(model.J) + duration;
 	return endTime - elm$time$Time$posixToMillis(model.P);
 };
@@ -6288,13 +6288,7 @@ var author$project$Main$update = F2(
 					author$project$Main$updateWindow(model)) : _Utils_Tuple2(newModel, elm$core$Platform$Cmd$none);
 		}
 	});
-var elm$html$Html$a = _VirtualDom_node('a');
-var elm$html$Html$article = _VirtualDom_node('article');
-var elm$html$Html$b = _VirtualDom_node('b');
-var elm$html$Html$div = _VirtualDom_node('div');
-var elm$html$Html$h1 = _VirtualDom_node('h1');
-var elm$html$Html$hr = _VirtualDom_node('hr');
-var elm$html$Html$p = _VirtualDom_node('p');
+var elm$html$Html$span = _VirtualDom_node('span');
 var elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
 var elm$json$Json$Encode$string = _Json_wrap;
@@ -6306,6 +6300,25 @@ var elm$html$Html$Attributes$stringProperty = F2(
 			elm$json$Json$Encode$string(string));
 	});
 var elm$html$Html$Attributes$class = elm$html$Html$Attributes$stringProperty('className');
+var author$project$Main$whiteText = function (str) {
+	return A2(
+		elm$html$Html$span,
+		_List_fromArray(
+			[
+				elm$html$Html$Attributes$class('white-text')
+			]),
+		_List_fromArray(
+			[
+				elm$html$Html$text(str)
+			]));
+};
+var elm$html$Html$a = _VirtualDom_node('a');
+var elm$html$Html$article = _VirtualDom_node('article');
+var elm$html$Html$b = _VirtualDom_node('b');
+var elm$html$Html$div = _VirtualDom_node('div');
+var elm$html$Html$h1 = _VirtualDom_node('h1');
+var elm$html$Html$hr = _VirtualDom_node('hr');
+var elm$html$Html$p = _VirtualDom_node('p');
 var elm$html$Html$Attributes$href = function (url) {
 	return A2(
 		elm$html$Html$Attributes$stringProperty,
@@ -6330,14 +6343,14 @@ var author$project$Main$homeView = A2(
 					_List_Nil,
 					_List_fromArray(
 						[
-							elm$html$Html$text('Re:Size')
+							author$project$Main$whiteText('Re:Size')
 						])),
 					A2(
 					elm$html$Html$p,
 					_List_Nil,
 					_List_fromArray(
 						[
-							elm$html$Html$text('Most modern websites are responsive: when you resize your browser window, they adjust to make adequate use of the space. This game ain\'t that. To win, you must continually resize your window perfectly to fit the mold. Grab those corners and race against a clock to become the greatest window manager of all time.')
+							author$project$Main$whiteText('Most modern websites are responsive: when you resize your browser window, they adjust to make adequate use of the space. This game ain\'t that. To win, you must continually resize your window to fit the mold. Grab those corners and race against a clock to become the greatest window manager of all time.')
 						])),
 					A2(
 					elm$html$Html$p,
@@ -6349,7 +6362,7 @@ var author$project$Main$homeView = A2(
 							_List_Nil,
 							_List_fromArray(
 								[
-									elm$html$Html$text('Resize your browser window to fit the box to start the game. Yes, seriously.')
+									author$project$Main$whiteText('Resize your browser window to fit the box to start the game. Yes, seriously.')
 								]))
 						])),
 					A2(
@@ -6360,7 +6373,7 @@ var author$project$Main$homeView = A2(
 						]),
 					_List_fromArray(
 						[
-							elm$html$Html$text('(⚠️ Won\'t work on devices that don\'t let you resize your browser.)')
+							author$project$Main$whiteText('(⚠️ Won\'t work on devices that don\'t let you resize your browser.)')
 						])),
 					A2(elm$html$Html$hr, _List_Nil, _List_Nil),
 					A2(
@@ -6371,29 +6384,38 @@ var author$project$Main$homeView = A2(
 						]),
 					_List_fromArray(
 						[
-							elm$html$Html$text('Re:Size is written by '),
 							A2(
-							elm$html$Html$a,
+							elm$html$Html$span,
 							_List_fromArray(
 								[
-									elm$html$Html$Attributes$href('https://jew.ski/')
+									elm$html$Html$Attributes$class('white-text')
 								]),
 							_List_fromArray(
 								[
-									elm$html$Html$text('Chris Andrejewski')
-								])),
-							elm$html$Html$text('. The source code is '),
-							A2(
-							elm$html$Html$a,
-							_List_fromArray(
-								[
-									elm$html$Html$Attributes$href('https://github.com/andrejewski/resize')
-								]),
-							_List_fromArray(
-								[
-									elm$html$Html$text('open source')
-								])),
-							elm$html$Html$text('.')
+									elm$html$Html$text('Re:Size is written by '),
+									A2(
+									elm$html$Html$a,
+									_List_fromArray(
+										[
+											elm$html$Html$Attributes$href('https://jew.ski/')
+										]),
+									_List_fromArray(
+										[
+											elm$html$Html$text('Chris Andrejewski')
+										])),
+									elm$html$Html$text('. The source code is '),
+									A2(
+									elm$html$Html$a,
+									_List_fromArray(
+										[
+											elm$html$Html$Attributes$href('https://github.com/andrejewski/resize')
+										]),
+									_List_fromArray(
+										[
+											elm$html$Html$text('open source')
+										])),
+									elm$html$Html$text('.')
+								]))
 						]))
 				]))
 		]));
@@ -6521,7 +6543,7 @@ var author$project$Main$view = function (model) {
 												3,
 												'0',
 												elm$core$String$fromInt(milliseconds));
-											return elm$html$Html$text(displaySeconds + (':' + displayMilliseconds));
+											return author$project$Main$whiteText(displaySeconds + (':' + displayMilliseconds));
 										}()
 										]))
 								]));
@@ -6544,7 +6566,7 @@ var author$project$Main$view = function (model) {
 											_List_Nil,
 											_List_fromArray(
 												[
-													elm$html$Html$text('The game is now done.')
+													author$project$Main$whiteText('The game is now done.')
 												])),
 											A2(
 											elm$html$Html$p,
@@ -6554,7 +6576,7 @@ var author$project$Main$view = function (model) {
 													function () {
 													var diffMs = elm$time$Time$posixToMillis(model.H) - elm$time$Time$posixToMillis(model.R);
 													var seconds = (diffMs / 1000) | 0;
-													return elm$html$Html$text(
+													return author$project$Main$whiteText(
 														'You perfectly resized ' + (A2(author$project$Main$plural, 'window', model.z) + (' in ' + (A2(author$project$Main$plural, 'second', seconds) + '.'))));
 												}()
 												])),
@@ -6568,7 +6590,7 @@ var author$project$Main$view = function (model) {
 													_List_Nil,
 													_List_fromArray(
 														[
-															elm$html$Html$text('Resize your browser window to fit the box to return home.')
+															author$project$Main$whiteText('Resize your browser window to fit the box to return home.')
 														]))
 												]))
 										]))
