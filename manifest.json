@@ -1,10 +1,10 @@
 {
-  "name": "Prime Time",
-  "short_name": "Prime Time",
-  "start_url": "/prime-time/?utm_source=a2hs",
+  "name": "Re:Size",
+  "short_name": "Re:Size",
+  "start_url": "/resize",
   "background_color": "#a6c9e7",
   "display": "fullscreen",
-  "scope": "/prime-time/",
+  "scope": "/resize/",
   "icons": [
     {
       "src": "icons/medium.png",
